@@ -1,7 +1,8 @@
 import SwiftUI
 
-struct PrimaryTextFieldStyle: TextFieldStyle {
-    func _body(configuration: TextField<Self._Label>) -> some View {
+public struct PrimaryTextFieldStyle: TextFieldStyle {
+    public init() { }
+    public func _body(configuration: TextField<Self._Label>) -> some View {
         configuration
             .foregroundStyle(UserInterfaceAsset.ddPrimary.swiftUIColor)
             .padding(9)
@@ -14,8 +15,9 @@ struct PrimaryTextFieldStyle: TextFieldStyle {
     }
 }
 
-struct SecondaryTextFieldStyle: TextFieldStyle {
-    func _body(configuration: TextField<Self._Label>) -> some View {
+public struct SecondaryTextFieldStyle: TextFieldStyle {
+    public init() { }
+    public func _body(configuration: TextField<Self._Label>) -> some View {
         configuration
             .foregroundStyle(UserInterfaceAsset.ddPrimary.swiftUIColor)
 
@@ -23,8 +25,9 @@ struct SecondaryTextFieldStyle: TextFieldStyle {
     }
 }
 
-struct ChatTextFieldStyle: TextFieldStyle {
-    func _body(configuration: TextField<Self._Label>) -> some View {
+public struct ChatTextFieldStyle: TextFieldStyle {
+    public init() { }
+    public func _body(configuration: TextField<Self._Label>) -> some View {
         configuration
             .font(.subheadline)
             .padding(12)

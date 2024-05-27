@@ -1,19 +1,19 @@
 import SwiftUI
 
-struct PrimaryButtonStyle: ButtonStyle {
-    func makeBody(configuration: Configuration) -> some View {
+public struct PrimaryButtonStyle: ButtonStyle {
+    public func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .padding()
             .background(UserInterfaceAsset.ddAccent.swiftUIColor)
             .foregroundStyle(.white)
             .clipShape(RoundedRectangle(cornerRadius: 16.0))
-            .bold()
+            .font(UserInterfaceFontFamily.Pretendard.bold.swiftUIFont(size: 16))
             .opacity(configuration.isPressed ? 0.4 : 1.0)
     }
 }
 
-struct SecondaryButtonStyle: ButtonStyle {
-    func makeBody(configuration: Configuration) -> some View {
+public struct SecondaryButtonStyle: ButtonStyle {
+    public func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .padding(12)
             .background(UserInterfaceAsset.ddAccent.swiftUIColor)
@@ -24,8 +24,8 @@ struct SecondaryButtonStyle: ButtonStyle {
     }
 }
 
-struct ComposeButtonStyle: ButtonStyle {
-    func makeBody(configuration: Configuration) -> some View {
+public struct ComposeButtonStyle: ButtonStyle {
+    public func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .padding(.horizontal, 34)
             .padding(.vertical, 12)
@@ -37,8 +37,8 @@ struct ComposeButtonStyle: ButtonStyle {
     }
 }
 
-struct PauseButtonStyle: ButtonStyle {
-    func makeBody(configuration: Configuration) -> some View {
+public struct PauseButtonStyle: ButtonStyle {
+    public func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .padding(.horizontal, 34)
             .padding(.vertical, 12)

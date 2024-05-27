@@ -1,7 +1,7 @@
 import SwiftUI
 
-struct PrimaryMenuStyle: MenuStyle {
-    func makeBody(configuration: Configuration) -> some View {
+public struct PrimaryMenuStyle: MenuStyle {
+    public func makeBody(configuration: Configuration) -> some View {
         Menu(configuration)
             .background(UserInterfaceAsset.ddPrimaryBackground.swiftUIColor)
             .clipShape(RoundedRectangle(cornerRadius: 10))
