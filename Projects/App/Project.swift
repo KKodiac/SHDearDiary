@@ -3,6 +3,7 @@ import DependencyPlugin
 
 let project = Project(
     name: "\(Project.Environment.appName)App",
+    packages: Project.Environment.packages,
     targets: [
         .target(
             name: "\(Project.Environment.appName)App",
@@ -17,7 +18,7 @@ let project = Project(
             entitlements: .dictionary([
                 "com.apple.developer.applesignin": .array(["Default"])
             ]),
-            dependencies: [
+            dependencies: Project.Environment.dependecies + [
                 .project(target: "Shared", path: .relativeToRoot("./Projects/Shared")),
             ]
         ),

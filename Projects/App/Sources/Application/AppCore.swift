@@ -8,15 +8,25 @@ struct AppCore {
     }
     
     enum Action {
-                
+        case onAppear
         case destination(PresentationAction<Destination.Action>)
     }
     
     var body: some ReducerOf<Self> {
-        EmptyReducer()
+        Reduce { state, action in
+            switch action {
+            case .onAppear:
+                return .none
+            default:
+                return .none
+            }
+        }
+        .ifLet(\.$destination, action: \.destination)
     }
         
     @Reducer
     enum Destination {
+        case auth(AuthCore)
+        case home
     }
 }

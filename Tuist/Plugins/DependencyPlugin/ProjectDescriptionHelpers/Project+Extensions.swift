@@ -4,8 +4,8 @@ import ProjectDescription
 public extension Project {
 	enum Environment {
 		public static let appName = "DearDiary"
-		public static let destinations: Destinations = .iOS
-		public static let deploymentTarget = DeploymentTargets.iOS("17.0")
+        public static let destinations: Destinations = [.iPhone]
+        public static let deploymentTarget: DeploymentTargets = .iOS("17.0")
 		public static let bundlePrefix = "com.bibumtiger"
 		public static let featureProductType = ProjectDescription.Product.staticLibrary
         public static let dependecies: [TargetDependency] = [
@@ -15,6 +15,13 @@ public extension Project {
             .package(product: "GoogleSignInSwift", type: .runtime),
             .package(product: "Moya", type: .runtime),
             .package(product: "SwiftUICalendar", type: .runtime)
+        ]
+        public static let packages: [Package] = [
+            .remote(url: "https://github.com/pointfreeco/swift-composable-architecture.git", requirement: .upToNextMajor(from: "1.7.2")),
+            .remote(url: "https://github.com/Moya/Moya.git", requirement: .upToNextMajor(from: "15.0.3")),
+            .remote(url: "https://github.com/GGJJack/SwiftUICalendar", requirement: .exact("0.1.13")),
+            .remote(url: "https://github.com/firebase/firebase-ios-sdk", requirement: .upToNextMajor(from: "10.20.0")),
+            .remote(url: "https://github.com/google/GoogleSignIn-iOS", requirement: .exact("7.0.0"))
         ]
 	}
 }
