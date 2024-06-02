@@ -1,6 +1,6 @@
 import ComposableArchitecture
-import SwiftUI
 import Feature
+import SwiftUI
 import Shared
 
 struct AppView: View {

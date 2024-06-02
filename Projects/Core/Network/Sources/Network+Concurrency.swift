@@ -1,17 +1,15 @@
 import Foundation
 import Moya
 
-extension MoyaProvider {
-    
-    class MoyaConcurrency {
+extension Network {
+    public class NetworkConcurrency {
+        private let provider: MoyaProvider<MultiTarget>
         
-        private let provider: MoyaProvider
-        
-        init(provider: MoyaProvider) {
+        init(provider: MoyaProvider<MultiTarget>) {
             self.provider = provider
         }
         
-        func request<T: Decodable>(_ target: Target) async throws -> T {
+        func request<T: Decodable>(_ target: MultiTarget) async throws -> T {
             return try await withCheckedThrowingContinuation { continuation in
                 provider.request(target) { result in
                     switch result {
@@ -28,7 +26,7 @@ extension MoyaProvider {
             }
         }
         
-        func request<T: Decodable>(for type: T.Type, target: Target) async throws -> T {
+        func request<T: Decodable>(for type: T.Type, target: MultiTarget) async throws -> T {
             return try await withCheckedThrowingContinuation { continuation in
                 provider.request(target) { result in
                     switch result {
@@ -45,7 +43,7 @@ extension MoyaProvider {
             }
         }
         
-        func request<T: Decodable>(for type: T.Type, target: Target, progressHandler: @escaping (Double) -> Void) async throws -> T {
+        func request<T: Decodable>(for type: T.Type, target: MultiTarget, progressHandler: @escaping (Double) -> Void) async throws -> T {
             return try await withCheckedThrowingContinuation { continuation in
                 provider.request(target, progress: { response in
                     progressHandler(response.progress)
@@ -65,7 +63,7 @@ extension MoyaProvider {
         }
     }
     
-    var async: MoyaConcurrency {
-        MoyaConcurrency(provider: self)
+    var async: NetworkConcurrency {
+        NetworkConcurrency(provider: self.provider)
     }
 }
