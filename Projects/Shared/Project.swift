@@ -3,7 +3,7 @@ import DependencyPlugin
 
 let project = Project(
     name: "Shared",
-    packages: [],
+    packages: Project.Environment.packages,
     targets: [
         .target(
             name: "Shared",
@@ -13,8 +13,9 @@ let project = Project(
             deploymentTargets: Project.Environment.deploymentTarget,
             infoPlist: .default,
             sources: ["Sources/*"],
-            dependencies: [
-                .project(target: "UserInterface", path: .relativeToCurrentFile("./UI")),
+            dependencies: Project.Environment.dependecies + [
+                .project(target: "UserInterface", path: .relativeToCurrentFile("UI")),
+                .project(target: "ExternalDependencies", path: .relativeToCurrentFile("ExternalDependencies")),
             ]
         ),
     ]

@@ -10,16 +10,13 @@ let project = Project(
             destinations: Project.Environment.destinations,
             product: .app,
             bundleId: "\(Project.Environment.bundlePrefix).\(Project.Environment.appName).App",
-            infoPlist: .extendingDefault(
-                with: Project.Secrets.appInfoPList
-            ),
+            infoPlist: .extendingDefault(with: Project.Secrets.appInfoPList),
             sources: ["Sources/**"],
-            resources: ["Resources/**"],
             entitlements: .dictionary([
                 "com.apple.developer.applesignin": .array(["Default"])
             ]),
             dependencies: Project.Environment.dependecies + [
-                .project(target: "Shared", path: .relativeToRoot("./Projects/Shared")),
+                .project(target: "Feature", path: .relativeToRoot("Projects/Feature")),
             ]
         ),
         .target(
