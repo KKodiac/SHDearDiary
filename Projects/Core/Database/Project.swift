@@ -2,14 +2,14 @@ import ProjectDescription
 import DependencyPlugin
 
 let project = Project(
-    name: "RelationalStore",
+    name: "Database",
     packages: Project.Environment.packages,
     targets: [
         .target(
-            name: "RelationalStore",
+            name: "Database",
             destinations: Project.Environment.destinations,
             product: .staticLibrary,
-            bundleId: "\(Project.Environment.bundlePrefix).Data.RelationalStore",
+            bundleId: "\(Project.Environment.bundlePrefix).Core.Database",
             deploymentTargets: Project.Environment.deploymentTarget,
             infoPlist: .default,
             sources: ["Sources/**"],

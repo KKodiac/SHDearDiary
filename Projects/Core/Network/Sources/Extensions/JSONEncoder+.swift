@@ -1,6 +1,6 @@
 import Foundation
 
-extension JSONEncoder {
+public extension JSONEncoder {
     static var `default`: JSONEncoder {
         let encoder = JSONEncoder()
         encoder.keyEncodingStrategy = .convertToSnakeCase

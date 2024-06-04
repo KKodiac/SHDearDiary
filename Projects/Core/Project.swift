@@ -14,9 +14,7 @@ let project = Project(
             infoPlist: .default,
             sources: ["Sources/*"],
             dependencies: Project.Environment.dependecies + [
-                .project(target: "Authentication", path: .relativeToCurrentFile("Authentication")),
-                .project(target: "RelationalStore", path: .relativeToCurrentFile("RelationalStore")),
-                .project(target: "KeyValueStore", path: .relativeToCurrentFile("KeyValueStore")),
+                .project(target: "Database", path: .relativeToCurrentFile("Database")),
                 .project(target: "Network", path: .relativeToCurrentFile("Network")),
                 .project(target: "Shared", path: .relativeToRoot("Projects/Shared")),
             ]

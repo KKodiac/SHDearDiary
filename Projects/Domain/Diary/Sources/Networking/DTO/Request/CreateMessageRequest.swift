@@ -1,6 +1,6 @@
 import Foundation
 
-struct CreateMessageRequestDTO: Encodable {
+struct CreateMessageRequest: Encodable {
     let role: Role
     let content: String
 }

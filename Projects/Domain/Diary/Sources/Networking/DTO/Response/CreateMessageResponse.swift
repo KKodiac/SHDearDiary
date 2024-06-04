@@ -1,6 +1,6 @@
 import Foundation
 
-struct CreateMessageResponseDTO: Decodable {
+struct CreateMessageResponse: Decodable {
     let id: String
     let object: String
     let createdAt: Int64
