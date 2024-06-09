@@ -15,6 +15,8 @@ let project = Project(
             sources: ["Sources/*"],
             dependencies: Project.Environment.dependecies + [
                 .project(target: "Account", path: .relativeToCurrentFile("Account")),
+                .project(target: "Diary", path: .relativeToCurrentFile("Diary")),
+                .project(target: "Setting", path: .relativeToCurrentFile("Setting")),
             ]
         ),
     ]

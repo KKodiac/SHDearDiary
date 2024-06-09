@@ -8,4 +8,5 @@ public struct Diary: Codable {
 public enum Personality: String, CaseIterable, Codable {
     case basic
     case friendly
+    case none
 }

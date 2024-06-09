@@ -9,7 +9,7 @@ public struct AccentTextStyle: ViewModifier {
 }
 
 public extension View {
-    public func accentTextStyle() -> some View {
+    func accentTextStyle() -> some View {
         modifier(AccentTextStyle())
     }
 }

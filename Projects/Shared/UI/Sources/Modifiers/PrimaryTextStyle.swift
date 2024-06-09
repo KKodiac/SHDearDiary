@@ -8,7 +8,7 @@ public struct PrimaryTextStyle: ViewModifier {
 }
 
 public extension View {
-    public func primaryTextStyle() -> some View {
+    func primaryTextStyle() -> some View {
         modifier(PrimaryTextStyle())
     }
 }

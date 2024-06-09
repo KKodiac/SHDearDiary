@@ -2,8 +2,13 @@ import ProjectDescription
 import DependencyPlugin
 
 let project = Project(
-    name: "\(Project.Environment.appName)App",
+    name: "App",
+    organizationName: "bibumtiger",
     packages: Project.Environment.packages,
+    settings: .settings(configurations: [
+        .debug(name: "Debug", xcconfig: .relativeToRoot("Config/App.xcconfig")),
+        .release(name: "Release", xcconfig: .relativeToRoot("Config/App.xcconfig"))
+    ]),
     targets: [
         .target(
             name: "\(Project.Environment.appName)App",
@@ -12,6 +17,7 @@ let project = Project(
             bundleId: "\(Project.Environment.bundlePrefix).\(Project.Environment.appName).App",
             infoPlist: .extendingDefault(with: Project.Secrets.appInfoPList),
             sources: ["Sources/**"],
+            resources: ["Resources/**"],
             entitlements: .dictionary([
                 "com.apple.developer.applesignin": .array(["Default"])
             ]),

@@ -1,8 +1,19 @@
 {
   "images" : [
     {
-      "filename" : "Google.png",
-      "idiom" : "universal"
+      "filename" : "Googlex1.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "Googlex2.png",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "Googlex3.png",
+      "idiom" : "universal",
+      "scale" : "3x"
     }
   ],
   "info" : {

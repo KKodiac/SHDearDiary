@@ -1,6 +1,7 @@
 import SwiftUI
 
 public struct PrimaryButtonStyle: ButtonStyle {
+    public init() { }
     public func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .padding()
@@ -13,6 +14,7 @@ public struct PrimaryButtonStyle: ButtonStyle {
 }
 
 public struct SecondaryButtonStyle: ButtonStyle {
+    public init() { }
     public func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .padding(12)
@@ -25,6 +27,7 @@ public struct SecondaryButtonStyle: ButtonStyle {
 }
 
 public struct ComposeButtonStyle: ButtonStyle {
+    public init() { }
     public func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .padding(.horizontal, 34)
@@ -38,6 +41,7 @@ public struct ComposeButtonStyle: ButtonStyle {
 }
 
 public struct PauseButtonStyle: ButtonStyle {
+    public init() { }
     public func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .padding(.horizontal, 34)

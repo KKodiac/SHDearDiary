@@ -7,8 +7,8 @@ import Moya
 protocol AssistantServiceProvider {
     func start() async throws
     func send(message: String) async throws -> CreateMessageResponse
-    func run() async throws -> CreateRunResponseDTO
-    func fetch() async throws -> FetchMessagesResponseDTO
+    func run() async throws -> CreateRunResponse
+    func fetch() async throws -> FetchMessagesResponse
     func runStream() async throws -> (URLSession.AsyncBytes, URLResponse)
 }
 
@@ -32,7 +32,9 @@ final class AssistantService: AssistantServiceProvider {
     }
     
     func start() async throws {
-        let data: CreateThreadResponesDTO = try await network.async.request(.target(AssistantClient.createThread))
+        let data: CreateThreadResponse = try await network.async.request(
+            .target(AssistantClient.createThread)
+        )
         threadId = data.id
     }
     
@@ -45,7 +47,7 @@ final class AssistantService: AssistantServiceProvider {
         )
     }
     
-    func run() async throws -> CreateRunResponseDTO {
+    func run() async throws -> CreateRunResponse {
         return try await network.async.request(
             .target(AssistantClient.createRun(
                 threadId: threadId,
@@ -54,7 +56,7 @@ final class AssistantService: AssistantServiceProvider {
         )
     }
     
-    func fetch() async throws -> FetchMessagesResponseDTO {
+    func fetch() async throws -> FetchMessagesResponse {
         return try await network.async.request(
             .target(AssistantClient.fetchOne(
                 threadId: threadId)
@@ -67,7 +69,7 @@ final class AssistantService: AssistantServiceProvider {
             throw AssistantError.invalidURL
         }
         
-        let encodable = CreateRunRequestDTO(assistantId: PropertyReader.assistantId)
+        let encodable = CreateRunRequest(assistantId: PropertyReader.assistantId)
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.httpBody = try JSONEncoder.default.encode(encodable)

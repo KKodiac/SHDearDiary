@@ -1,4 +1,5 @@
 import ComposableArchitecture
+import Feature
 
 @Reducer
 struct AppCore {
@@ -26,7 +27,7 @@ struct AppCore {
         
     @Reducer
     enum Destination {
-        case auth(AuthCore)
+        case auth(AccountCore)
         case home
     }
 }
