@@ -4,6 +4,7 @@ import Shared
 
 public struct AuthenticationView: View {
     @Bindable var store: StoreOf<AuthenticationCore>
+    @Environment(\.authorizationController) private var controller
     
     public var body: some View {
         ZStack {
@@ -19,7 +20,7 @@ public struct AuthenticationView: View {
                         store.send(.didTapSignInWithGoogle)
                     }
                     CircularButton(image: UserInterfaceAsset.apple) {
-                        store.send(.didTapSignInWithApple)
+                        store.send(.didTapSignInWithApple(controller))
                     }
                 }
                 

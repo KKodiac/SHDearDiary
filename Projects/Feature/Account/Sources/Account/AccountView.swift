@@ -5,6 +5,7 @@ import Shared
 
 public struct AccountView: View {
     @Bindable var store: StoreOf<AccountCore>
+    @Environment(\.authorizationController) private var controller
     
     public init(store: StoreOf<AccountCore>) {
         self.store = store
@@ -18,7 +19,7 @@ public struct AccountView: View {
             }
             
             CircularButton(image: UserInterfaceAsset.apple) {
-                store.send(.didTapSignInWithApple)
+                store.send(.didTapSignInWithApple(controller))
             }
         }
     }
@@ -65,6 +66,12 @@ public struct AccountView: View {
                     confirmSection
                 }
                 .primaryHorizontalPadding()
+            }
+            .onAppear {
+                store.send(.didAppear)
+            }
+            .onOpenURL { url in
+                store.send(.didReceiveOpenURL(url))
             }
             .navigationDestination(
                 item: $store.scope(
