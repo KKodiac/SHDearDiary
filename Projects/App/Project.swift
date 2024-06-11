@@ -6,8 +6,8 @@ let project = Project(
     organizationName: "bibumtiger",
     packages: Project.Environment.packages,
     settings: .settings(configurations: [
-        .debug(name: "Debug", xcconfig: .relativeToRoot("Config/App.xcconfig")),
-        .release(name: "Release", xcconfig: .relativeToRoot("Config/App.xcconfig"))
+        .debug(name: "Debug", xcconfig: .relativeToRoot("Configs/App.xcconfig")),
+        .release(name: "Release", xcconfig: .relativeToRoot("Configs/App.xcconfig"))
     ]),
     targets: [
         .target(
