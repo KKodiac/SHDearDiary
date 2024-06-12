@@ -1,7 +1,15 @@
 import Dependencies
 import Foundation
 
-public struct UserUseCase {
-    var authenticate: (_ form: AuthenticationForm) async throws -> Void
-    var register: (_ form: RegistrationForm) async throws -> Void
+extension DependencyValues {
+    public var user: UserUseCase {
+        get { self[UserUseCase.self] }
+        set { self[UserUseCase.self] = newValue }
+    }
 }
+
+public struct UserUseCase {
+    public var authenticate: (_ form: AuthenticationForm) async throws -> User
+    public var register: (_ form: RegistrationForm) async throws -> User
+}
+

@@ -67,6 +67,9 @@ public struct AccountCore {
             case .destination(.presented(.signIn(.didTapNavigateToSignUp))):
                 state.destination = .signUp(RegistrationCore.State())
                 return .none
+            case .destination(.presented(.signUp(.didRequireNewSetup))):
+                state.destination = .setUp(SetUpCore.State())
+                return .none
             default:
                 return .none
             }

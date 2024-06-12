@@ -25,7 +25,7 @@ public struct RegistrationView: View {
                 Spacer()
                 
                 PrimaryButton(label: "Sign Up") {
-                    
+                    store.send(.didTapSignUpWithEmail)
                 }
                 .padding(.vertical)
                 

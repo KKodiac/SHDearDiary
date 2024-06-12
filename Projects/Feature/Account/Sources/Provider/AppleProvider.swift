@@ -46,7 +46,7 @@ public final class AppleProviderService {
         return request
     }
     
-    private func requestFirebaseSignIn(_ credential: AuthCredential) async throws -> AuthDataResult{
+    private func requestFirebaseSignIn(_ credential: AuthCredential) async throws -> AuthDataResult {
         let firebase = Firebase.Auth.auth()
         return try await firebase.signIn(with: credential)
     }
