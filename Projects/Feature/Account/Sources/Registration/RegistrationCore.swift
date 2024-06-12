@@ -34,7 +34,7 @@ public struct RegistrationCore {
         
         case didTapNavigateToBack
         case didTapNavigateToSignIn
-        case didRequireNewSetup
+        case navigateToSetup
         case binding(BindingAction<State>)
     }
     
@@ -56,13 +56,18 @@ public struct RegistrationCore {
                         ).validated()
                     )
                     if let isNewUser = user.isNewUser, isNewUser {
-                        await send(.didRequireNewSetup)
+                        await send(.navigateToSetup)
                     }
                     await send(.didFinishSignUpWithEmail(user))
                 } catch: { error, send in
                     let error = error as? UserUseCase.DomainError
                     await send(.didFailDomainAction(error))
                 }
+            case .didFailDomainAction(let error):
+                if case let .some(.underlying(error)) = error {
+                    print(error)
+                }
+                return .none
             case .didFinishSignUpWithEmail(let user):
                 return .none
             case .didTapNavigateToBack:

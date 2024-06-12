@@ -1,12 +1,11 @@
 import AuthenticationServices
 import ComposableArchitecture
+import Domain
 import Foundation
 import SwiftUI
 
 @Reducer
 public struct AccountCore {
-    @Dependency(\.appleProvider) private var apple
-    @Dependency(\.googleProvider) private var google
     
     public init() { }
     
@@ -36,6 +35,9 @@ public struct AccountCore {
         case signUp(RegistrationCore)
         case setUp(SetUpCore)
     }
+    
+    @Dependency(\.appleProvider) private var apple
+    @Dependency(\.googleProvider) private var google
     
     public var body: some ReducerOf<Self> {
         BindingReducer()
@@ -67,7 +69,10 @@ public struct AccountCore {
             case .destination(.presented(.signIn(.didTapNavigateToSignUp))):
                 state.destination = .signUp(RegistrationCore.State())
                 return .none
-            case .destination(.presented(.signUp(.didRequireNewSetup))):
+            case .destination(.presented(.signUp(.navigateToSetup))):
+                state.destination = .setUp(SetUpCore.State())
+                return .none
+            case .destination(.presented(.signIn(.navigateToSetup))):
                 state.destination = .setUp(SetUpCore.State())
                 return .none
             default:

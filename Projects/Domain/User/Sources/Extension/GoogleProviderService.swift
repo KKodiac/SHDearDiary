@@ -6,7 +6,7 @@ import Shared
 import SwiftUI
 
 extension DependencyValues {
-    var googleProvider: GoogleProviderService {
+    public var googleProvider: GoogleProviderService {
         get { self[GoogleProviderService.self] }
         set { self[GoogleProviderService.self] = newValue }
     }
@@ -32,7 +32,12 @@ public final class GoogleProviderService {
     
     public func execute() async throws -> User {
         let credential = try await makeAuthorizationRequest()
-        return try await requestFirebaseSignIn(credential).user
+        let data = try await requestFirebaseSignIn(credential)
+        return User(
+            email: data.user.email,
+            name: data.user.displayName,
+            isNewUser: data.additionalUserInfo?.isNewUser
+        )
     }
     
     @MainActor

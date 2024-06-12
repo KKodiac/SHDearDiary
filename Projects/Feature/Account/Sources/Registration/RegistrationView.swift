@@ -15,12 +15,14 @@ public struct RegistrationView: View {
                     .padding(.bottom, 70)
                 
                 VStack(spacing: 30) {
-                    PrimaryTextField("Your Name", text: $store.name)
-                    PrimaryTextField("Your Email", text: $store.email)
+                    PrimaryTextField("Your Name", text: $store.name).textContentType(.name)
+                    PrimaryTextField("Your Email", text: $store.email).textContentType(.emailAddress)
                     PrimarySecureField("Password", text: $store.password)
-                    PrimarySecureField("Confirm Password", text: $store.confirmPassword)
+                        .textContentType(.newPassword)
+                    PrimarySecureField("Confirm Password", text: $store.confirmPassword).textContentType(.newPassword       )
                 }
                 .textFieldStyle(SecondaryTextFieldStyle())
+                .textInputAutocapitalization(.never)
                 
                 Spacer()
                 

@@ -14,7 +14,7 @@ public struct PrimarySecureField: View {
     public var body: some View {
         VStack(alignment: .leading) {
             Text(header).accentTextStyle()
-            TextField("", text: $text)
+            SecureField("", text: $text)
         }
     }
 }

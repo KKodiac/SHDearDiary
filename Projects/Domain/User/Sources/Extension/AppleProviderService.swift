@@ -5,7 +5,7 @@ import Shared
 import SwiftUI
 
 extension DependencyValues {
-    var appleProvider: AppleProviderService {
+    public var appleProvider: AppleProviderService {
         get { self[AppleProviderService.self] }
         set { self[AppleProviderService.self] = newValue }
     }
@@ -23,7 +23,7 @@ public final class AppleProviderService {
     public func execute(_ controller: AuthorizationController) async throws -> User {
         async let request = makeAuthorizationRequest()
         let result = try await controller.performRequest(request)
-        var user: User? = nil
+        var data: AuthDataResult? = nil
         if case let .appleID(credential) = result {
             guard let token = credential.identityToken,
                   let tokenString = String(data: token, encoding: .utf8)
@@ -33,10 +33,14 @@ public final class AppleProviderService {
                 rawNonce: randomNonceString(),
                 fullName: credential.fullName
             )
-            user = try await requestFirebaseSignIn(credential).user
+            data = try await requestFirebaseSignIn(credential)
         }
-        guard let user = user else { throw AppleProviderError.invalidAuthorizedUser }
-        return user
+        guard let data = data else { throw AppleProviderError.invalidAuthorizedUser }
+        return User(
+            email: data.user.email,
+            name: data.user.displayName,
+            isNewUser: data.additionalUserInfo?.isNewUser
+        )
     }
     
     private func makeAuthorizationRequest() -> ASAuthorizationAppleIDRequest {

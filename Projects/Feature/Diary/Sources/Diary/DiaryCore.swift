@@ -5,19 +5,31 @@ import SwiftData
 import Domain
 
 @Reducer
-struct DiaryCore {
+public struct DiaryCore {
     @Dependency(\.dismiss) private var dismiss
     
     @ObservableState
-    struct State {
-        var focusDate: YearMonthDay = YearMonthDay.current
-        var isPresented: Bool = true
-        var dialogues: [Dialogue] = []
-        var focusedEntries: [Entry] = []
+    public struct State {
+        var focusDate: YearMonthDay
+        var isPresented: Bool
+        var dialogues: [Dialogue]
+        var focusedEntries: [Entry]
         var path = StackState<Path.State>()
+        
+        public init(
+            focusDate: YearMonthDay = YearMonthDay.current,
+            isPresented: Bool = true,
+            dialogues: [Dialogue] = [],
+            focusedEntries: [Entry] = []
+        ) {
+            self.focusDate = focusDate
+            self.isPresented = isPresented
+            self.dialogues = dialogues
+            self.focusedEntries = focusedEntries
+        }
     }
     
-    enum Action: BindableAction {
+    public enum Action: BindableAction {
         case diaryCardTapped(Entry)
         case settingsTapped
         case memoirTapped
@@ -31,7 +43,7 @@ struct DiaryCore {
         case path(StackAction<Path.State, Path.Action>)
     }
     
-    var body: some ReducerOf<Self> {
+    public var body: some ReducerOf<Self> {
         BindingReducer()
         Reduce { state, action in
             switch action {
@@ -63,15 +75,15 @@ struct DiaryCore {
     }
     
     @Reducer
-    struct Path {
+    public struct Path {
         @ObservableState
-        enum State {
+        public enum State {
             case settings
             case detail(DiaryDetailCore.State)
             case log(MemoirCore.State)
         }
         
-        enum Action: BindableAction {
+        public enum Action: BindableAction {
             case settings
             case detail(DiaryDetailCore.Action)
             case log(MemoirCore.Action)
@@ -79,7 +91,7 @@ struct DiaryCore {
             case binding(_ action: BindingAction<State>)
         }
         
-        var body: some ReducerOf<Self> {
+        public var body: some ReducerOf<Self> {
             BindingReducer()
             Scope(state: \.log, action: \.log) {
                 MemoirCore()

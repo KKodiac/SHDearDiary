@@ -17,9 +17,6 @@ public struct RegistrationForm {
         guard self.username.isValidEmail else {
             throw UserUseCase.DomainError.didFailEmailValidation
         }
-        guard self.password.isValidPassword else {
-            throw UserUseCase.DomainError.didFailPasswordValidation
-        }
         guard self.password == self.confirmPassword else {
             throw UserUseCase.DomainError.didFailNewPasswordValidation
         }

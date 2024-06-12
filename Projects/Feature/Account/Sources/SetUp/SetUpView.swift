@@ -14,10 +14,11 @@ struct SetUpView: View {
                 .offset(y: titleTextOffsetY)
             
             UserInterfaceAsset.diary.swiftUIImage
+            Spacer()
             
             VStack(alignment: .leading, spacing: 15) {
                 Text("Name your diary...")
-                    .primaryTextStyle()
+                    .font(UserInterfaceFontFamily.Pretendard.regular.swiftUIFont(size: 14))
                 
                 TextField(text: $store.name) {
                     Text("ex) Kitty")
@@ -25,7 +26,7 @@ struct SetUpView: View {
                 .textFieldStyle(PrimaryTextFieldStyle())
                 
                 Text("Select the personality of your diary...")
-                    .primaryTextStyle()
+                    .font(UserInterfaceFontFamily.Pretendard.regular.swiftUIFont(size: 14))
                     .padding(.top, 20)
                 
                 DisclosureGroup(
@@ -63,7 +64,7 @@ struct SetUpView: View {
             }
             Spacer()
             PrimaryButton(label: "Get Started") {
-                store.send(.getStartedButtonTapped)
+                store.send(.didTapGetStarted)
             }
         }
         .padding(.all)

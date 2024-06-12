@@ -27,10 +27,10 @@ public struct SetUpCore {
     }
     
     public enum Action: BindableAction {
-        case traitSelectionTapped(Personality, Bool)
-        case getStartedButtonTapped
+        case didTapPersonalityPicker(Personality, Bool)
+        case didTapGetStarted
         
-        case navigationToDiary
+        case navigateToDiary
         
         case binding(_ action: BindingAction<State>)
     }
@@ -41,14 +41,12 @@ public struct SetUpCore {
         BindingReducer()
         Reduce { state, action in
             switch action {
-            case .traitSelectionTapped(let personality, let expandedState):
+            case .didTapPersonalityPicker(let personality, let expandedState):
                 state.selectedPersonality = personality
                 state.isExpanded = expandedState
                 return .none
-            case .getStartedButtonTapped:
-                return .send(.navigationToDiary)
-            case .navigationToDiary:
-                return .none
+            case .didTapGetStarted:
+                return .send(.navigateToDiary)
             default:
                 return .none
             }

@@ -6,9 +6,9 @@ import OSLog
 
 
 @Reducer
-struct MemoirCore {
+public struct MemoirCore {
     @ObservableState
-    struct State {
+    public struct State {
         var memoirText: String = "Hi"
         var chatInitialized: Bool = false
         var dialogues: [Dialogue] = []
@@ -18,7 +18,7 @@ struct MemoirCore {
         @Presents var destination: Destination.State?
     }
     
-    enum Action: BindableAction {
+    public enum Action: BindableAction {
         case didTapNavigateToBack
         
         case binding(BindingAction<State>)
@@ -26,13 +26,13 @@ struct MemoirCore {
     }
     
     @Reducer
-    enum Destination {
+    public enum Destination {
         case detail(MemoirDetailCore)
     }
     
     @Dependency(\.dismiss) var dismiss
     
-    var body: some ReducerOf<Self> {
+    public var body: some ReducerOf<Self> {
         BindingReducer()
         Reduce { state, action in
             switch action {

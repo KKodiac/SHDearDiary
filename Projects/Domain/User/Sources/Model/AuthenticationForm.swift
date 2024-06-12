@@ -13,10 +13,6 @@ public struct AuthenticationForm {
         guard self.username.isValidEmail else {
             throw UserUseCase.DomainError.didFailEmailValidation
         }
-        
-        guard self.password.isValidPassword else {
-            throw UserUseCase.DomainError.didFailPasswordValidation
-        }
         return self
     }
 }

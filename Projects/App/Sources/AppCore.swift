@@ -28,6 +28,6 @@ struct AppCore {
     @Reducer
     enum Destination {
         case auth(AccountCore)
-        case home
+        case diary
     }
 }
