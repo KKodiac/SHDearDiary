@@ -12,6 +12,7 @@ extension UserUseCase: DependencyKey {
             )
             
             return User(
+                uid: data.user.uid,
                 email: data.user.email,
                 name: data.user.displayName,
                 isNewUser: data.additionalUserInfo?.isNewUser
@@ -24,6 +25,7 @@ extension UserUseCase: DependencyKey {
                 password: form.password
             )
             return User(
+                uid: data.user.uid,
                 email: data.user.email,
                 name: data.user.displayName,
                 isNewUser: data.additionalUserInfo?.isNewUser

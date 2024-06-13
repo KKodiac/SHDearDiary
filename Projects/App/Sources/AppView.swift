@@ -7,14 +7,26 @@ struct AppView: View {
     @Bindable var store: StoreOf<AppCore>
     
     var body: some View {
-        ZStack {
-            UserInterfaceAsset.ddPrimaryBackground.swiftUIColor.ignoresSafeArea()
-            AccountView(store: StoreOf<AccountCore>(initialState: AccountCore.State()) {
-                AccountCore()
-            })
-        }
-        .onAppear {
-            store.send(.onAppear)
+        NavigationStack {
+            ZStack {
+                UserInterfaceAsset.ddPrimaryBackground.swiftUIColor.ignoresSafeArea()
+                Text("Dear Diary").primaryTextStyle().offset(y: -50)
+                if let store = store.scope(state: \.destination?.auth, action: \.destination.auth) {
+                    AccountView(store: store)
+                }
+            }
+            .onAppear {
+                store.send(.didAppear)
+            }
+            .navigationDestination(
+                item: $store.scope(
+                    state: \.destination?.diary,
+                    action: \.destination.diary
+                )
+            ) { store in
+                DiaryView(store: store)
+                    .navigationBarBackButtonHidden()
+            }
         }
     }
 }

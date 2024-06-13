@@ -28,13 +28,14 @@ public struct AuthenticationCore {
         case didTapSignInWithGoogle
         case didTapSignInWithEmail
         
-        case didFinishSignInWithEmail
+        case didSucceedSignIn(User)
         case didTapNavigateToBack
         case didTapNavigateToSignUp
         
         case didFailDomainAction(UserUseCase.DomainError?)
         
-        case navigateToSetup
+        case navigateToSetUp
+        case navigateToDiary
         
         case binding(BindingAction<State>)
     }
@@ -43,6 +44,10 @@ public struct AuthenticationCore {
     @Dependency(\.user) private var user
     @Dependency(\.appleProvider) private var apple
     @Dependency(\.googleProvider) private var google
+    
+    // MARK: User Unique UID
+    // MARK: Will be used to initialized unique ModelContainer for SwiftData
+    @Shared(.appStorage("uid")) private var uid = ""
     
     public var body: some ReducerOf<Self> {
         BindingReducer()
@@ -56,29 +61,35 @@ public struct AuthenticationCore {
                             password: state.password
                         ).validated()
                     )
-                    if let isNewUser = user.isNewUser, isNewUser {
-                        await send(.navigateToSetup)
-                    }
-                    await send(.didFinishSignInWithEmail)
+                    await send(.didSucceedSignIn(user))
                 } catch: { error, send in
                     let error = error as? UserUseCase.DomainError
                     await send(.didFailDomainAction(error))
                 }
+            case .didSucceedSignIn(let user):
+                uid = user.uid
+                return .run { send in
+                    if let isNewUser = user.isNewUser, isNewUser {
+                        await send(.navigateToSetUp)
+                    } else {
+                        await send(.navigateToDiary)
+                    }
+                }
             case .didTapSignInWithGoogle:
                 return .run { send in
                     let user = try await google.execute()
-                    if let isNewUser = user.isNewUser, isNewUser {
-                        await send(.navigateToSetup)
-                    }
-                    await send(.didFinishSignInWithEmail)
+                    await send(.didSucceedSignIn(user))
+                } catch: { error, send in
+                    // TODO: Handle didFailSign
+                    print(error)
                 }
             case .didTapSignInWithApple(let controller):
                 return .run { send in
                     let user = try await apple.execute(controller)
-                    if let isNewUser = user.isNewUser, isNewUser {
-                        await send(.navigateToSetup)
-                    }
-                    await send(.didFinishSignInWithEmail)
+                    await send(.didSucceedSignIn(user))
+                } catch: { error, send in
+                    // TODO: Handle didFailSign
+                    print(error)
                 }
             case .didTapNavigateToBack:
                 return .run { _ in await self.dismiss() }

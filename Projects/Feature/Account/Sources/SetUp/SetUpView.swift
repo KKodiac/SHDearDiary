@@ -30,27 +30,25 @@ struct SetUpView: View {
                     .padding(.top, 20)
                 
                 DisclosureGroup(
-                    isExpanded: $store.isExpanded,
+                    isExpanded: $store.expanded,
                     content: {
                         ForEach(store.personalities, id: \.self) { personality in
                             Divider()
-                            Button(action: {
-                                
-                            }, label: {
+                            Button {
+                                store.send(.didTapPicker(personality))
+                            } label: {
                                 HStack {
                                     Text(personality.rawValue).font(.headline)
                                     Spacer()
                                 }
-                            })
+                            }
                         }
                     },
                     label: {
-                        if store.selectedPersonality == .none {
-                            Text("Choose One...")
-                        } else {
-                            Text(store.selectedPersonality.rawValue)
-                        }
-                        
+                        Text(store.personality == .none
+                             ? "Choose One..." 
+                             : store.personality.rawValue
+                        )
                     }
                 )
                 .padding(9)

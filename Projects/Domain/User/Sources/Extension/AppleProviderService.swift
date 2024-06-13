@@ -37,6 +37,7 @@ public final class AppleProviderService {
         }
         guard let data = data else { throw AppleProviderError.invalidAuthorizedUser }
         return User(
+            uid: data.user.uid,
             email: data.user.email,
             name: data.user.displayName,
             isNewUser: data.additionalUserInfo?.isNewUser

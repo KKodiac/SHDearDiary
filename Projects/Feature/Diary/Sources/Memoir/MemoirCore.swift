@@ -7,6 +7,7 @@ import OSLog
 
 @Reducer
 public struct MemoirCore {
+    public init() { }
     @ObservableState
     public struct State {
         var memoirText: String = "Hi"

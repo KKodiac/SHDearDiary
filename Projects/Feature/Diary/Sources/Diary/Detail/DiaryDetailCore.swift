@@ -3,10 +3,14 @@ import Domain
 
 @Reducer
 public struct DiaryDetailCore {
-    
+    public init() { }
     @ObservableState
     public struct State {
         var entry: Entry
+        
+        public init(entry: Entry) {
+            self.entry = entry
+        }
     }
     
     public enum Action: BindableAction {

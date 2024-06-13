@@ -34,7 +34,7 @@ public struct RegistrationCore {
         
         case didTapNavigateToBack
         case didTapNavigateToSignIn
-        case navigateToSetup
+        case navigateToSetUp
         case binding(BindingAction<State>)
     }
     
@@ -56,7 +56,7 @@ public struct RegistrationCore {
                         ).validated()
                     )
                     if let isNewUser = user.isNewUser, isNewUser {
-                        await send(.navigateToSetup)
+                        await send(.navigateToSetUp)
                     }
                     await send(.didFinishSignUpWithEmail(user))
                 } catch: { error, send in

@@ -8,26 +8,27 @@ public struct SetUpCore {
     
     @ObservableState
     public struct State {
-        var isExpanded: Bool
-        var name: String
-        var selectedPersonality: Personality
+        var expanded: Bool
         var personalities: [Personality]
         
+        @Shared var name: String
+        @Shared var personality: Personality
+        
         public init(
-            isExpanded: Bool = false,
-            name: String = "",
-            selectedPersonality: Personality = .none,
-            personalities: [Personality] = Personality.allCases
+            expanded: Bool = false,
+            personalities: [Personality] = Personality.allCases,
+            name: @autoclosure () -> String = "",
+            personality: @autoclosure () -> Personality = .none
         ) {
-            self.isExpanded = isExpanded
-            self.name = name
-            self.selectedPersonality = selectedPersonality
+            self.expanded = expanded
             self.personalities = personalities
+            self._name = Shared(wrappedValue: name(), .appStorage("diary_name"))
+            self._personality = Shared(wrappedValue: personality(), .appStorage("diary_personality"))
         }
     }
     
     public enum Action: BindableAction {
-        case didTapPersonalityPicker(Personality, Bool)
+        case didTapPicker(_ personality: Personality)
         case didTapGetStarted
         
         case navigateToDiary
@@ -35,15 +36,13 @@ public struct SetUpCore {
         case binding(_ action: BindingAction<State>)
     }
     
-    @Dependency(\.defaultAppStorage) var appStorage
-    
     public var body: some Reducer<State, Action> {
         BindingReducer()
         Reduce { state, action in
             switch action {
-            case .didTapPersonalityPicker(let personality, let expandedState):
-                state.selectedPersonality = personality
-                state.isExpanded = expandedState
+            case let .didTapPicker(personality):
+                state.personality = personality
+                state.expanded.toggle()
                 return .none
             case .didTapGetStarted:
                 return .send(.navigateToDiary)

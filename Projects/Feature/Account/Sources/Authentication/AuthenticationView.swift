@@ -35,7 +35,7 @@ public struct AuthenticationView: View {
                 Spacer()
                 
                 PrimaryButton(label: "Log In") {
-                    
+                    store.send(.didTapSignInWithEmail)
                 }
                 .padding(.vertical)
                 

@@ -7,14 +7,14 @@ import Domain
 @Reducer
 public struct DiaryCore {
     @Dependency(\.dismiss) private var dismiss
-    
+    public init() { }
     @ObservableState
     public struct State {
         var focusDate: YearMonthDay
         var isPresented: Bool
         var dialogues: [Dialogue]
         var focusedEntries: [Entry]
-        var path = StackState<Path.State>()
+        @Presents var destination: Destination.State?
         
         public init(
             focusDate: YearMonthDay = YearMonthDay.current,
@@ -40,7 +40,7 @@ public struct DiaryCore {
         case backNavigationTapped
         
         case binding(_ action: BindingAction<State>)
-        case path(StackAction<Path.State, Path.Action>)
+        case destination(PresentationAction<Destination.Action>)
     }
     
     public var body: some ReducerOf<Self> {
@@ -56,7 +56,7 @@ public struct DiaryCore {
                 state.focusDate = (date != state.focusDate ? date : YearMonthDay.current)
                 return .send(.fetchSelectedMemoir)
             case .diaryCardTapped(let entry):
-                state.path.append(.detail(.init(entry: entry)))
+                state.destination = .detail(.init(entry: entry))
                 return .none
             case .memoirTapped:
                 
@@ -69,36 +69,13 @@ public struct DiaryCore {
                 return .none
             }
         }
-        .forEach(\.path, action: \.path) {
-            Path()
-        }
+        .ifLet(\.$destination, action: \.destination)
     }
     
     @Reducer
-    public struct Path {
-        @ObservableState
-        public enum State {
-            case settings
-            case detail(DiaryDetailCore.State)
-            case log(MemoirCore.State)
-        }
-        
-        public enum Action: BindableAction {
-            case settings
-            case detail(DiaryDetailCore.Action)
-            case log(MemoirCore.Action)
-            
-            case binding(_ action: BindingAction<State>)
-        }
-        
-        public var body: some ReducerOf<Self> {
-            BindingReducer()
-            Scope(state: \.log, action: \.log) {
-                MemoirCore()
-            }
-            Scope(state: \.detail, action: \.detail) {
-                DiaryDetailCore()
-            }
-        }
+    public enum Destination {
+        case setting(SettingCore)
+        case detail(DiaryDetailCore)
+        case log(MemoirCore)
     }
 }

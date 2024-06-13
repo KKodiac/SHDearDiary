@@ -20,10 +20,15 @@ public final class GoogleProviderService {
         case invalidClientId
     }
     
+    private var configured: Bool = false
+    
     public init() { }
     
     public func initialize() {
-        FirebaseApp.configure()
+        if !configured {
+            FirebaseApp.configure()
+            configured.toggle()
+        }
     }
     
     public func handleURL(_ url: URL) {
@@ -33,7 +38,9 @@ public final class GoogleProviderService {
     public func execute() async throws -> User {
         let credential = try await makeAuthorizationRequest()
         let data = try await requestFirebaseSignIn(credential)
+        
         return User(
+            uid: data.user.uid,
             email: data.user.email,
             name: data.user.displayName,
             isNewUser: data.additionalUserInfo?.isNewUser

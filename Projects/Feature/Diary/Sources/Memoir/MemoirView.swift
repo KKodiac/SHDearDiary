@@ -3,11 +3,16 @@ import ComposableArchitecture
 import SwiftUI
 import Shared
 
-struct MemoirView: View {
+public struct MemoirView: View {
     @Bindable var store: StoreOf<MemoirCore>
-    @AppStorage("DiaryName") private var diaryName: String?
+    @AppStorage("diary_name") private var diaryName: String?
     
-    var header: some View {
+    public init(store: StoreOf<MemoirCore>, diaryName: String? = nil) {
+        self.store = store
+        self.diaryName = diaryName
+    }
+    
+    public var header: some View {
         VStack {
             Divider()
                 .overlay {
@@ -54,7 +59,7 @@ struct MemoirView: View {
         .background(UserInterfaceAsset.toolbarBackground.swiftUIColor.shadow(radius: 3, y: 2))
     }
     
-    var body: some View {
+    public var body: some View {
         ZStack {
             VStack {
                 header
