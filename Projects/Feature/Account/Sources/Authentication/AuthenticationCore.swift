@@ -12,14 +12,21 @@ public struct AuthenticationCore {
         var email: String
         var password: String
         
+        var error: UserUseCase.DomainError?
+        var isPresented: Bool
+        
         public init(
             user: @autoclosure () -> String = "",
             email: String = "",
-            password: String = ""
+            password: String = "",
+            isPresented: Bool = false,
+            error: UserUseCase.DomainError? = nil
         ) {
             self._user = Shared(wrappedValue: user(), .appStorage("user"))
             self.email = email
             self.password = password
+            self.isPresented = isPresented
+            self.error = error
         }
     }
     
@@ -83,6 +90,12 @@ public struct AuthenticationCore {
                     // TODO: Handle didFailSign
                     print(error)
                 }
+            case .didFailDomainAction(let error):
+                if let error = error {
+                    state.error = error
+                    state.isPresented.toggle()
+                }
+                return .none
             case .didTapSignInWithApple(let controller):
                 return .run { send in
                     let user = try await apple.execute(controller)

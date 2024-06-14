@@ -8,6 +8,8 @@ extension DiarySchemaV1 {
         var createAt: Date
         var role: Role
         
+        var entry: Entry?
+                
         init(
             content: String,
             role: Role,

@@ -91,7 +91,7 @@ public struct AccountView: View {
                 RegistrationView(store: store)
                     .navigationBarBackButtonHidden()
             }
-            .navigationDestination(
+            .fullScreenCover(
                 item: $store.scope(
                     state: \.destination?.setUp,
                     action: \.destination.setUp

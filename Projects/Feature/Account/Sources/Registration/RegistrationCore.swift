@@ -11,35 +11,46 @@ public struct RegistrationCore {
         var password: String
         var confirmPassword: String
         
+        var error: UserUseCase.DomainError?
+        var isPresented: Bool
+        
         init(
             email: String = "",
             name: String = "",
             password: String = "",
-            confirmPassword: String = ""
+            confirmPassword: String = "",
+            isPresented: Bool = false,
+            error: UserUseCase.DomainError? = nil
         ) {
             self.email = email
             self.name = name
             self.password = password
             self.confirmPassword = confirmPassword
+            self.isPresented = isPresented
+            self.error = error
         }
     }
     
     public enum Action: BindableAction {
         case didTapSignUpWithEmail
         
-        case didFinishSignUpWithEmail(DomainUser.User)
-        
-        
+        case didSucceedSignUp(DomainUser.User)
         case didFailDomainAction(UserUseCase.DomainError?)
         
         case didTapNavigateToBack
         case didTapNavigateToSignIn
+        
         case navigateToSetUp
+        case navigateToDiary
         case binding(BindingAction<State>)
     }
     
     @Dependency(\.dismiss) private var dismiss
     @Dependency(\.user) private var user
+    
+    // MARK: User Unique UID
+    // MARK: Will be used to initialized unique ModelContainer for SwiftData
+    @Shared(.appStorage("uid")) private var uid = ""
     
     public var body: some ReducerOf<Self> {
         BindingReducer()
@@ -55,21 +66,26 @@ public struct RegistrationCore {
                             confirmPassword: state.confirmPassword
                         ).validated()
                     )
-                    if let isNewUser = user.isNewUser, isNewUser {
-                        await send(.navigateToSetUp)
-                    }
-                    await send(.didFinishSignUpWithEmail(user))
+                    await send(.didSucceedSignUp(user))
                 } catch: { error, send in
                     let error = error as? UserUseCase.DomainError
                     await send(.didFailDomainAction(error))
                 }
             case .didFailDomainAction(let error):
-                if case let .some(.underlying(error)) = error {
-                    print(error)
+                if let error = error {
+                    state.error = error
+                    state.isPresented.toggle()
                 }
                 return .none
-            case .didFinishSignUpWithEmail(let user):
-                return .none
+            case .didSucceedSignUp(let user):
+                uid = user.uid
+                return .run { send in
+                    if let isNewUser = user.isNewUser, isNewUser {
+                        await send(.navigateToSetUp)
+                    } else {
+                        await send(.navigateToDiary)
+                    }
+                }
             case .didTapNavigateToBack:
                 return .run { _ in await dismiss() }
             default:

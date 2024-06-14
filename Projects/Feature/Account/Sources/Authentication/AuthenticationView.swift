@@ -27,10 +27,11 @@ public struct AuthenticationView: View {
                 PrimaryDivider().padding(.vertical, 15)
                 
                 VStack(spacing: 30) {
-                    PrimaryTextField("Your Email", text: $store.email)
-                    PrimarySecureField("Password", text: $store.password)
+                    PrimaryTextField("Your Email", text: $store.email).textContentType(.emailAddress)
+                    PrimarySecureField("Password", text: $store.password).textContentType(.newPassword)
                 }
                 .textFieldStyle(SecondaryTextFieldStyle())
+                .textInputAutocapitalization(.never)
                 
                 Spacer()
                 
@@ -57,6 +58,11 @@ public struct AuthenticationView: View {
                 } label: {
                     UserInterfaceAsset.back.swiftUIImage
                 }
+            }
+        }
+        .alert(isPresented: $store.isPresented, error: store.error) {
+            Button("OK") {
+                store.isPresented.toggle()
             }
         }
     }

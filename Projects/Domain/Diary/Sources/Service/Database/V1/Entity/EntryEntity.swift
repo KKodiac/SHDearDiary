@@ -9,7 +9,7 @@ extension DiarySchemaV1 {
         var title: String
         var content: String
         
-        @Relationship(deleteRule: .cascade)
+        @Relationship(deleteRule: .cascade, inverse: \Dialogue.entry)
         var dialogue: [Dialogue]
         var createAt: Date
         

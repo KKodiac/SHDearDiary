@@ -51,5 +51,10 @@ public struct RegistrationView: View {
                 }
             }
         }
+        .alert(isPresented: $store.isPresented, error: store.error) {
+            Button("OK") {
+                store.isPresented.toggle()
+            }
+        }
     }
 }
