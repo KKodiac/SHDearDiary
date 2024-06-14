@@ -32,6 +32,15 @@ struct AppCore {
             case .destination(.presented(.auth(.navigateToDiary))):
                 state.destination = .diary(DiaryCore.State())
                 return .none
+            case .destination(.presented(.auth(.destination(.presented(.signUp(.navigateToDiary)))))):
+                state.destination = .diary(DiaryCore.State())
+                return .none
+            case .destination(.presented(.auth(.destination(.presented(.signIn(.navigateToDiary)))))):
+                state.destination = .diary(DiaryCore.State())
+                return .none
+            case .destination(.presented(.auth(.destination(.presented(.setUp(.navigateToDiary)))))):
+                state.destination = .diary(DiaryCore.State())
+                return .none
             default:
                 return .none
             }
